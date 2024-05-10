@@ -29,5 +29,9 @@ public class Cab {
 
     int numberofSeats;
 
-    double farePerKm
+    double farePerKm;
+
+    @OneToOne
+    @JoinColumn
+    Driver driver;
 }
