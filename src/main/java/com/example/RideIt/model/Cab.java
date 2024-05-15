@@ -12,8 +12,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
-
+@Builder
 public class Cab {
 
     @Id
@@ -22,12 +21,15 @@ public class Cab {
 
     String company;
 
+    @Column(unique = true, nullable = false)
+    String cabNo;
+
     String carModel;
 
     @Enumerated(EnumType.STRING)
     CarType carType;
 
-    int numberofSeats;
+    int numberOfSeats;
 
     double farePerKm;
 

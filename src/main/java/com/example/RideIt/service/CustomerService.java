@@ -2,27 +2,50 @@ package com.example.RideIt.service;
 
 
 import com.example.RideIt.dto.request.CustomerRequest;
+import com.example.RideIt.dto.response.CustomerResponse;
 import com.example.RideIt.model.Customer;
 import com.example.RideIt.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.RideIt.transformer.CustomerTransformer;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CustomerService {
 
-    @Autowired
-    CustomerRepository customerRepository;
+//    @Autowired
+//    CustomerRepository customerRepository;
 
-    public String addCustomer(CustomerRequest customerRequest) {
+    private final CustomerRepository customerRepository;
 
-        Customer customer = new Customer();
-        customer.setName(customerRequest.getName());
-        customer.setAge(customerRequest.getAge());
-        customer.setEmailId(customerRequest.getEmailId());
-        customer.setAddress(customerRequest.getAddress());
-        customer.setGender(customerRequest.getGender());
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+
+    public CustomerResponse addCustomer(CustomerRequest customerRequest) {
+
+
+
+        Customer customer = CustomerTransformer.customerRequestToCustomer(customerRequest);
 
         Customer savedCustomer = customerRepository.save(customer);
-        return "Customer saved successfully!";
+
+       // entity -> ResponseDTO
+
+       return CustomerTransformer.customerToCustomerResponse(savedCustomer);
+    }
+
+    public List<CustomerResponse> getCustomerByGenderAndAgeGreaterThan(String gender, int age) {
+
+        List<Customer> customers = customerRepository.getByGenderAndAgeGreaterThan(gender, age);
+
+        List<CustomerResponse> customerResponses = new ArrayList<>();
+        for(Customer customer: customers){
+            customerResponses.add(CustomerTransformer.customerToCustomerResponse(customer));
+        }
+
+        return customerResponses;
     }
 }
