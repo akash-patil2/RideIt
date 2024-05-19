@@ -1,27 +1,21 @@
-package com.example.RideIt.model;
+package com.example.RideIt.dto.response;
 
 
 import com.example.RideIt.Enum.TripStatus;
-import jakarta.persistence.*;
+import com.example.RideIt.model.Customer;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class TripBooking {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int  id;
+public class TripBookingResponse {
 
     String bookingId;
 
@@ -35,14 +29,10 @@ public class TripBooking {
 
     TripStatus tripStatus;
 
-    @CreationTimestamp
     Date bookedAt;
 
-    @ManyToOne
-    @JoinColumn
-    Customer customer;
+    CustomerResponse customerResponse;
 
-    @ManyToOne
-    @JoinColumn
-    Driver driver;
+    DriverResponse driverResponse;
+
 }

@@ -11,4 +11,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     @Query(value = "select * from customer where gender = :g and age >= :age", nativeQuery = true)
     List<Customer> getByGenderAndAgeGreaterThan(String g, int age);
+
+    Customer findByEmailId(String emailId);
 }
